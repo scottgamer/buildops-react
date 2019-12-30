@@ -1,0 +1,23 @@
+type Employee @model {
+  id: ID!
+  firstname: String!
+  lastname: String!
+  addresses: [Address] @connection(keyName: "byEmployee", fields: ["id"])
+  skills: [Skill] @connection(keyName: "byEmployee", fields: ["id"])
+}
+
+type Address @model @key(name: "byEmployee", fields: ["employeeId"]) {
+  id: ID!
+  employeeId: ID!
+  line1: String!
+  line2: String
+  city: String!
+  state: String!
+  zipcode: String!
+}
+
+type Skill @model @key(name: "byEmployee", fields: ["employeeId"]) {
+  id: ID!
+  employeeId: ID!
+  name: String
+}
