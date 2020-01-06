@@ -390,35 +390,70 @@ const Employees = () => {
           <form>
             <div className="form-control">
               <label htmlFor="firstname">First Name</label>
-              <input type="text" id="firstname" ref={firstnameElRef} />
+              <input
+                type="text"
+                id="firstname"
+                ref={firstnameElRef}
+                placeholder="First Name"
+              />
             </div>
             <div className="form-control">
               <label htmlFor="lastname">Last Name</label>
-              <input type="text" id="lastname" ref={lastnameElRef} />
+              <input
+                type="text"
+                id="lastname"
+                ref={lastnameElRef}
+                placeholder="Last Name"
+              />
             </div>
             <div className="form-control">
               <label htmlFor="line1">Line 1</label>
-              <input type="text" id="line1" ref={line1ElRef} />
+              <input
+                type="text"
+                id="line1"
+                ref={line1ElRef}
+                placeholder="Line 1"
+              />
             </div>
             <div className="form-control">
               <label htmlFor="line2">Line 2</label>
-              <input type="text" id="line2" ref={line2ElRef} />
+              <input
+                type="text"
+                id="line2"
+                ref={line2ElRef}
+                placeholder="Line 2"
+              />
             </div>
             <div className="form-control">
               <label htmlFor="city">City</label>
-              <input type="text" id="city" ref={cityElRef} />
+              <input type="text" id="city" ref={cityElRef} placeholder="City" />
             </div>
             <div className="form-control">
               <label htmlFor="state">State</label>
-              <input type="text" id="state" ref={stateElRef} />
+              <input
+                type="text"
+                id="state"
+                ref={stateElRef}
+                placeholder="State"
+              />
             </div>
             <div className="form-control">
               <label htmlFor="zipcode">Zip Code</label>
-              <input type="text" id="zipcode" ref={zipcodeElRef} />
+              <input
+                type="text"
+                id="zipcode"
+                ref={zipcodeElRef}
+                placeholder="Zip Code"
+              />
             </div>
             <div className="form-control">
               <label htmlFor="skill">Skill</label>
-              <input type="text" id="skill" ref={skillElRef} />
+              <input
+                type="text"
+                id="skill"
+                ref={skillElRef}
+                placeholder="Skill"
+              />
             </div>
           </form>
         </Modal>
