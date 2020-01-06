@@ -167,6 +167,7 @@ const Employees = () => {
                 state
               }
               skills{
+                _id
                 name
               }
             }
