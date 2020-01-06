@@ -459,7 +459,6 @@ const Employees = () => {
         </Modal>
       )}
 
-      {/* TODO this modal should load all selected employee data for later update */}
       {isUpdating && employees.selectedEmployee && (
         <Modal
           title={`Update Employee ${employees.selectedEmployee.firstname} ${employees.selectedEmployee.lastname}`}
