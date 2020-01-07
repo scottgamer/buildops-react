@@ -6,6 +6,8 @@ import EmployeeList from "../../components/Employees/EmployeeList/EmployeeList";
 import Spinner from "../../components/Spinner/Spinner";
 import AuthContext from "../../context/auth-context";
 
+import CONSTANTS from "../../config/CONSTANTS";
+
 import axios from "axios";
 
 import "../Events.css";
@@ -70,7 +72,7 @@ const Employees = () => {
       };
 
       const response = await axios.post(
-        `http://localhost:4000/graphql`,
+        `${CONSTANTS.API_URL}/graphql`,
         JSON.stringify(requestBody),
         {
           headers: {
@@ -164,7 +166,7 @@ const Employees = () => {
       // const token = contextType.token;
 
       const response = await axios.post(
-        `http://localhost:4000/graphql`,
+        `${CONSTANTS.API_URL}/graphql`,
         JSON.stringify(requestBody),
         {
           headers: {
@@ -260,7 +262,7 @@ const Employees = () => {
       // const token = contextType.token;
 
       const response = await axios.post(
-        `http://localhost:4000/graphql`,
+        `${CONSTANTS.API_URL}/graphql`,
         JSON.stringify(requestBody),
         {
           headers: {
@@ -331,7 +333,7 @@ const Employees = () => {
       };
 
       const response = await axios.post(
-        `http://localhost:4000/graphql`,
+        `${CONSTANTS.API_URL}/graphql`,
         JSON.stringify(requestBody),
         {
           headers: {
@@ -361,7 +363,7 @@ const Employees = () => {
     }
   };
 
-  const validateForm = async() => {
+  const validateForm = async () => {
     const firstname = firstnameElRef.current.value;
     const lastname = lastnameElRef.current.value;
     const line1 = line1ElRef.current.value;
