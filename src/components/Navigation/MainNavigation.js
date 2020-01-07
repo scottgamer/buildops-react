@@ -14,11 +14,12 @@ const mainNavigation = props => (
           </div>
           <nav className="main-navigation__items">
             <ul>
-              {!context.token && (
+              {/* TODO fix auth */}
+              {/* {!context.token && (
                 <li>
                   <NavLink to="/auth">Authenticate</NavLink>
                 </li>
-              )}
+              )} */}
               <li>
                 <NavLink to="/employees">Employees</NavLink>
               </li>

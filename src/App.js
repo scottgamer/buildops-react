@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 
-import AuthPage from "./pages/Auth";
+// TODO fix auth
+// import AuthPage from "./pages/Auth";
 import EmployeesPage from "./pages/Employees/Employees";
 import MainNavigation from "./components/Navigation/MainNavigation";
 import AuthContext from "./context/auth-context";
@@ -37,11 +38,13 @@ const App = () => {
           <MainNavigation />
           <main className="main-content">
             <Switch>
+              {/* TODO fix auth */}
               {auth.token && <Redirect from="/" to="/employees" exact />}
-              {auth.token && <Redirect from="/auth" to="/employees" exact />}
-              {!auth.token && <Route path="/auth" component={AuthPage} />}
+              {/* {auth.token && <Redirect from="/auth" to="/employees" exact />} */}
+              {/* {!auth.token && <Route path="/auth" component={AuthPage} />} */}
               <Route path="/employees" component={EmployeesPage} />
-              {!auth.token && <Redirect to="/auth" exact />}
+              {/* {!auth.token && <Redirect to="/auth" exact />} */}
+              {!auth.token && <Redirect to="/employees" exact />}
             </Switch>
           </main>
         </AuthContext.Provider>
