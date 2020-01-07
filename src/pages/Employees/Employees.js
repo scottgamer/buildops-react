@@ -15,11 +15,9 @@ import "../Events.css";
 const Employees = () => {
   const [employees, setEmployees] = useState({
     employees: [],
-    newEmployee: null,
     selectedEmployee: null
   });
 
-  const [isValid, setValid] = useState(false);
   const [isActive, setActive] = useState(true);
   const [isLoading, setLoading] = useState(false);
   const [isCreating, setCreating] = useState(false);
@@ -123,25 +121,26 @@ const Employees = () => {
 
   const modalConfirmHandler = async () => {
     try {
-      validateForm();
+      const formValues = getValuesFromForm();
 
-      if (!isValid) {
+      if (!validateForm(formValues)) {
         return;
       }
+
       setCreating(false);
       setLoading(true);
 
       const requestBody = {
         query: `
           mutation {
-            createEmployee(employeeInput: {firstname: "${employees.newEmployee.firstname}", lastname: "${employees.newEmployee.lastname}", addresses: [{
-              line1: "${employees.newEmployee.addresses[0].line1}",
-              line2: "${employees.newEmployee.addresses[0].line2}",
-              city: "${employees.newEmployee.addresses[0].city}",
-              state: "${employees.newEmployee.addresses[0].state}",
-              zipcode: "${employees.newEmployee.addresses[0].zipCode}"
+            createEmployee(employeeInput: {firstname: "${formValues.firstname}", lastname: "${formValues.lastname}", addresses: [{
+              line1: "${formValues.line1}",
+              line2: "${formValues.line2}",
+              city: "${formValues.city}",
+              state: "${formValues.state}",
+              zipcode: "${formValues.zipCode}"
             }], skills: [{
-              name: "${employees.newEmployee.skills[0].skill}"
+              name: "${formValues.skill}"
             }]}) {
               _id
               firstname
@@ -183,12 +182,10 @@ const Employees = () => {
       const updatedEmployees = [...employees.employees];
       updatedEmployees.push(response.data.data.createEmployee);
 
-      setValid(false);
       setLoading(false);
       setEmployees({
         ...employees,
         employees: updatedEmployees,
-        newEmployee: null
       });
     } catch (error) {
       console.log(error);
@@ -214,11 +211,26 @@ const Employees = () => {
     return { selectedEmployee: selectedEmployee };
   };
 
+  const getValuesFromForm = () => {
+    const form = {};
+
+    form.firstname = firstnameElRef.current.value;
+    form.lastname = lastnameElRef.current.value;
+    form.line1 = line1ElRef.current.value;
+    form.line2 = line2ElRef.current.value;
+    form.city = cityElRef.current.value;
+    form.state = stateElRef.current.value;
+    form.zipCode = zipcodeElRef.current.value;
+    form.skill = skillElRef.current.value;
+
+    return form;
+  };
+
   const updateEmployeeHandler = async employeeId => {
     try {
-      validateForm();
+      const formValues = getValuesFromForm();
 
-      if (!isValid) {
+      if (!validateForm(formValues)) {
         return;
       }
 
@@ -233,20 +245,20 @@ const Employees = () => {
       mutation {
         updateEmployee(updateEmployeeInput: {
           _id:"${employeeId}", 
-          firstname: "${employees.selectedEmployee.firstname}"
-          lastname: "${employees.selectedEmployee.lastname}"
+          firstname: "${formValues.firstname}"
+          lastname: "${formValues.lastname}"
           addresses: [{
             _id:"${addressId}", 
-            line1: "${employees.selectedEmployee.addresses[0].line1}",
-            line2: "${employees.selectedEmployee.addresses[0].line2}",
-            city: "${employees.selectedEmployee.addresses[0].city}",
-            state: "${employees.selectedEmployee.addresses[0].state}",
-            zipcode:"${employees.selectedEmployee.addresses[0].zipCode}"
+            line1: "${formValues.line1}",
+            line2: "${formValues.line2}",
+            city: "${formValues.city}",
+            state: "${formValues.state}",
+            zipcode:"${formValues.zipCode}"
           }]
           skills: [
             {
               _id: "${skillId}"
-              name: "${employees.selectedEmployee.skills[0].skill}"
+              name: "${formValues.skill}"
             }
           ]
         }) {
@@ -283,27 +295,26 @@ const Employees = () => {
 
       currentEmployees[toUpdateEmployeeIndex] = {
         _id: employeeId,
-        firstname: employees.selectedEmployee.firstname,
-        lastname: employees.selectedEmployee.lastname,
+        firstname: formValues.firstname,
+        lastname: formValues.lastname,
         addresses: [
           {
             _id: addressId,
-            line1: employees.selectedEmployee.addresses[0].line1,
-            line2: employees.selectedEmployee.addresses[0].line2,
-            city: employees.selectedEmployee.addresses[0].city,
-            state: employees.selectedEmployee.addresses[0].state,
-            zipcode: employees.selectedEmployee.addresses[0].zipCode
+            line1: formValues.line1,
+            line2: formValues.line2,
+            city: formValues.city,
+            state: formValues.state,
+            zipcode: formValues.zipCode
           }
         ],
         skills: [
           {
             _id: skillId,
-            name: employees.selectedEmployee.skills[0].skill
+            name: formValues.skill
           }
         ]
       };
 
-      setValid(false);
       setLoading(false);
       setEmployees({
         ...employees,
@@ -363,47 +374,38 @@ const Employees = () => {
     }
   };
 
-  const validateForm = async () => {
-    const firstname = firstnameElRef.current.value;
-    const lastname = lastnameElRef.current.value;
-    const line1 = line1ElRef.current.value;
-    const line2 = line2ElRef.current.value;
-    const city = cityElRef.current.value;
-    const state = stateElRef.current.value;
-    const zipCode = zipcodeElRef.current.value;
-    const skill = skillElRef.current.value;
-
+  const validateForm = formValues => {
     const formErrors = {};
 
-    if (!firstname || firstname.trim().length === 0) {
+    if (!formValues.firstname || formValues.firstname.trim().length === 0) {
       formErrors.firstname = "Required";
     }
 
-    if (!lastname || lastname.trim().length === 0) {
+    if (!formValues.lastname || formValues.lastname.trim().length === 0) {
       formErrors.lastname = "Required";
     }
 
-    if (!line1 || line1.trim().length === 0) {
+    if (!formValues.line1 || formValues.line1.trim().length === 0) {
       formErrors.line1 = "Required";
     }
 
-    if (!line2 || line2.trim().length === 0) {
+    if (!formValues.line2 || formValues.line2.trim().length === 0) {
       formErrors.line2 = "Required";
     }
 
-    if (!city || city.trim().length === 0) {
+    if (!formValues.city || formValues.city.trim().length === 0) {
       formErrors.city = "Required";
     }
 
-    if (!state || state.trim().length === 0) {
+    if (!formValues.state || formValues.state.trim().length === 0) {
       formErrors.state = "Required";
     }
 
-    if (!zipCode || zipCode.trim().length === 0) {
+    if (!formValues.zipCode || formValues.zipCode.trim().length === 0) {
       formErrors.zipcode = "Required";
     }
 
-    if (!skill || skill.trim().length === 0) {
+    if (!formValues.skill || formValues.skill.trim().length === 0) {
       formErrors.skill = "Required";
     }
 
@@ -413,46 +415,9 @@ const Employees = () => {
         out += error + " is " + formErrors[error] + "\n";
       }
       alert(out);
+      return false;
     } else {
-      setValid(true);
-
-      if (isCreating) {
-        setEmployees({
-          ...employees,
-          newEmployee: {
-            firstname,
-            lastname,
-            addresses: [
-              {
-                line1,
-                line2,
-                city,
-                state,
-                zipCode
-              }
-            ],
-            skills: [{ skill }]
-          }
-        });
-      }
-
-      if (isUpdating) {
-        const newSelectedEmployee = { ...employees.selectedEmployee };
-
-        newSelectedEmployee.firstname = firstname;
-        newSelectedEmployee.lastname = lastname;
-        newSelectedEmployee.addresses[0].line1 = line1;
-        newSelectedEmployee.addresses[0].line2 = line2;
-        newSelectedEmployee.addresses[0].city = city;
-        newSelectedEmployee.addresses[0].state = state;
-        newSelectedEmployee.addresses[0].zipCode = zipCode;
-        newSelectedEmployee.skills[0].skill = skill;
-
-        setEmployees({
-          ...employees,
-          selectedEmployee: newSelectedEmployee
-        });
-      }
+      return true;
     }
   };
 
@@ -468,8 +433,10 @@ const Employees = () => {
           canCancel
           canConfirm
           onCancel={modalCancelHandler}
-          onConfirm={modalConfirmHandler}
-          confirmText="Confirm"
+          onConfirm={async () => {
+            await modalConfirmHandler();
+          }}
+          confirmText="Create"
         >
           <form>
             <div className="form-control">
@@ -549,8 +516,8 @@ const Employees = () => {
           canCancel
           canConfirm
           onCancel={modalCancelHandler}
-          onConfirm={() => {
-            updateEmployeeHandler(employees.selectedEmployee._id);
+          onConfirm={async () => {
+            await updateEmployeeHandler(employees.selectedEmployee._id);
           }}
           confirmText="Update"
         >
