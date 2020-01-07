@@ -20,13 +20,15 @@
 }
 
 .modal__content {
-  padding: 1rem;
+  /* padding: 1rem; */
+  margin: 1rem;
 }
 
 .modal__actions {
   display: flex;
   justify-content: flex-end;
-  padding: 1rem;
+  /* padding: 1rem; */
+  margin: 1rem;
 }
 
 @media (min-width: 768px) {
